@@ -1,77 +1,76 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Random Wealth Fund</title>
-    <script src="https://cdn.jsdelivr.net/npm/papaparse@5.3.1/papaparse.min.js"></script>
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <title>Random Wealth Fund</title>
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.3.1/papaparse.min.js"></script> 
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 </head>
 <body>
-    <h1>Current Portfolio</h1>
-    <div id="table-container"></div>
+  <h1>Current Portfolio</h1> 
+  <div id="table-container"></div>
+  <div id="portfolio-chart"></div> 
 
-    <script>
-        const csvURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vS6n3wDZ6Gd8wLHkTdF2rmxhRQ_kPKhpSXV5Ai-CB03udp0Vfdh3lIATC9VA6VOGpt7bh2JTL2CFP_X/pub?output=csv";  // URL
+<script>
+  // Fetch data and create the table
+  const csvURL = "https://docs.google.com/spreadsheets/d/.../pub?output=csv"; // Replace with the CSV link for your data 
+  Papa.parse(csvURL, {
+    download: true,
+    header: true,
+    complete: function(results) {
+      renderTable(results.data);
+    }
+  });
 
-        Papa.parse(csvURL, {
-            download: true,
-            header: true,
-            complete: function(results) {
-                renderTable(results.data);
-            }
-        });
+  function renderTable(data) {
+    const tableContainer = document.getElementById('table-container');
+    const table = document.createElement('table');
+    tableContainer.appendChild(table);
 
-        function renderTable(data) {
-            const tableContainer = document.getElementById('table-container');
-            const table = document.createElement('table');
-            tableContainer.appendChild(table);
-
-            // Create header row
-            const headerRow = table.insertRow();
-            for (const headerName of Object.keys(data[0])) {
-                const headerCell = headerRow.insertCell();
-                headerCell.textContent = headerName;
-            }
-
-            // Create data rows
-            for (const row of data) {
-                const dataRow = table.insertRow();
-                for (const cellValue of Object.values(row)) {
-                    const dataCell = dataRow.insertCell();
-                    dataCell.textContent = cellValue;
-                }
-            }
-        }
-    </script>
-    <div id="portfolio-chart"></div> 
-
-  <script>
-      google.charts.load('current', {'packages':['corechart']});
-      google.charts.setOnLoadCallback(drawChart);
-
-    function drawChart() {
-      fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vRUosS8Uwuhn4OTYZ_jJ-J_vzTSWQGDV5dauf4PShC3mgZmD9v-deeDRRiVhlkGajcIX43i4Keuybsy/pub?output=csv')
-      .then(response => response.text())
-      .then(data => drawChartFromCSV(data)); 
-    } 
-
-    function drawChartFromCSV(csvData) {
-      const data = google.visualization.arrayToDataTable(parseCSV(csvData));  
-
-      var options = {
-        title: 'Portfolio Value Over Time',
-        curveType: 'function',
-        legend: { position: 'bottom' }  
-      };
-
-      var chart = new google.visualization.LineChart(document.getElementById('portfolio-chart'));
-      chart.draw(data, options);
+    // Create header row
+    const headerRow = table.insertRow();
+    for (const headerName of Object.keys(data[0])) {
+      const headerCell = headerRow.insertCell();
+      headerCell.textContent = headerName;
     }
 
-    // Helper function to parse CSV into a format Google Charts understands 
-    function parseCSV(csv) {
-      return Papa.parse(csv, { header: true }).data;
-    } 
-  </script>
+    // Create data rows
+    for (const row of data) {
+      const dataRow = table.insertRow();
+      for (const cellValue of Object.values(row)) {
+        const dataCell = dataRow.insertCell();
+        dataCell.textContent = cellValue;
+      }
+    }
+  }
+
+  // Fetch data and create the chart
+  google.charts.load('current', {'packages':['corechart']});
+  google.charts.setOnLoadCallback(drawChart);
+
+  function drawChart() {
+    fetch('https://docs.google.com/spreadsheets/d/.../pub?output=csv') // Replace with your Chart Data publish link
+    .then(response => response.text())
+    .then(data => drawChartFromCSV(data)); 
+  } 
+
+  function drawChartFromCSV(csvData) {
+    const data = google.visualization.arrayToDataTable(parseCSV(csvData));  
+
+    var options = {
+      title: 'Portfolio Value Over Time',
+      curveType: 'function',
+      legend: { position: 'bottom' }  
+    };
+
+    var chart = new google.visualization.LineChart(document.getElementById('portfolio-chart'));
+    chart.draw(data, options);
+  }
+
+  // Helper function to parse CSV into a format Google Charts understands 
+  function parseCSV(csv) {
+    return Papa.parse(csv, { header: true }).data;
+  } 
+</script>
 
 </body>
 </html>
