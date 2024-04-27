@@ -1,46 +1,45 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Random Wealth Fund</title>
-  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.3.1/papaparse.min.js"></script> 
-  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <title>Random Wealth Fund</title>
+    <script src="https://cdn.jsdelivr.net/npm/papaparse@5.3.1/papaparse.min.js"></script>
 </head>
 <body>
-  <h1>Current Portfolio</h1> 
-  <div id="table-container"></div>
-  <div id="portfolio-chart"></div> 
+    <h1>Current Portfolio</h1>
+    <div id="table-container"></div>
 
-<script>
-  // Fetch data and create the table
-  const tableCSVURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vS6n3wDZ6Gd8wLHkTdF2rmxhRQ_kPKhpSXV5Ai-CB03udp0Vfdh3lIATC9VA6VOGpt7bh2JTL2CFP_X/pub?output=csv";
-    download: true,
-    header: true,
-    complete: function(results) {
-      renderTable(results.data);
-    }
-  });
+    <script>
+        const csvURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vS6n3wDZ6Gd8wLHkTdF2rmxhRQ_kPKhpSXV5Ai-CB03udp0Vfdh3lIATC9VA6VOGpt7bh2JTL2CFP_X/pub?output=csv";  // URL
 
-  function renderTable(data) {
-    const tableContainer = document.getElementById('table-container');
-    const table = document.createElement('table');
-    tableContainer.appendChild(table);
+        Papa.parse(csvURL, {
+            download: true,
+            header: true,
+            complete: function(results) {
+                renderTable(results.data);
+            }
+        });
 
-    // Create header row
-    const headerRow = table.insertRow();
-    for (const headerName of Object.keys(data[0])) {
-      const headerCell = headerRow.insertCell();
-      headerCell.textContent = headerName;
-    }
+        function renderTable(data) {
+            const tableContainer = document.getElementById('table-container');
+            const table = document.createElement('table');
+            tableContainer.appendChild(table);
 
-    // Create data rows
-    for (const row of data) {
-      const dataRow = table.insertRow();
-      for (const cellValue of Object.values(row)) {
-        const dataCell = dataRow.insertCell();
-        dataCell.textContent = cellValue;
-      }
-    }
-  }
+            // Create header row
+            const headerRow = table.insertRow();
+            for (const headerName of Object.keys(data[0])) {
+                const headerCell = headerRow.insertCell();
+                headerCell.textContent = headerName;
+            }
 
+            // Create data rows
+            for (const row of data) {
+                const dataRow = table.insertRow();
+                for (const cellValue of Object.values(row)) {
+                    const dataCell = dataRow.insertCell();
+                    dataCell.textContent = cellValue;
+                }
+            }
+        }
+    </script>
 </body>
 </html>
