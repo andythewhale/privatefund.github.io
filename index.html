@@ -42,34 +42,5 @@
     }
   }
 
-  // Fetch data and create the chart
-  google.charts.load('current', {'packages':['corechart']});
-  google.charts.setOnLoadCallback(drawChart);
-
-  function drawChart() {
-    fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vRUosS8Uwuhn4OTYZ_jJ-J_vzTSWQGDV5dauf4PShC3mgZmD9v-deeDRRiVhlkGajcIX43i4Keuybsy/pub?output=csv')
-    .then(response => response.text())
-    .then(data => drawChartFromCSV(data)); 
-  } 
-
-  function drawChartFromCSV(csvData) {
-    const data = google.visualization.arrayToDataTable(parseCSV(csvData));  
-
-    var options = {
-      title: 'Portfolio Value Over Time',
-      curveType: 'function',
-      legend: { position: 'bottom' }  
-    };
-
-    var chart = new google.visualization.LineChart(document.getElementById('portfolio-chart'));
-    chart.draw(data, options);
-  }
-
-  // Helper function to parse CSV into a format Google Charts understands 
-  function parseCSV(csv) {
-    return Papa.parse(csv, { header: true }).data;
-  } 
-</script>
-
 </body>
 </html>
