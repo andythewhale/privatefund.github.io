@@ -12,8 +12,7 @@
 
 <script>
   // Fetch data and create the table
-  const csvURL = "https://docs.google.com/spreadsheets/d/.../pub?output=csv"; // Replace with the CSV link for your data 
-  Papa.parse(csvURL, {
+  const tableCSVURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vS6n3wDZ6Gd8wLHkTdF2rmxhRQ_kPKhpSXV5Ai-CB03udp0Vfdh3lIATC9VA6VOGpt7bh2JTL2CFP_X/pub?output=csv";
     download: true,
     header: true,
     complete: function(results) {
@@ -48,7 +47,7 @@
   google.charts.setOnLoadCallback(drawChart);
 
   function drawChart() {
-    fetch('https://docs.google.com/spreadsheets/d/.../pub?output=csv') // Replace with your Chart Data publish link
+    fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vRUosS8Uwuhn4OTYZ_jJ-J_vzTSWQGDV5dauf4PShC3mgZmD9v-deeDRRiVhlkGajcIX43i4Keuybsy/pub?output=csv')
     .then(response => response.text())
     .then(data => drawChartFromCSV(data)); 
   } 
