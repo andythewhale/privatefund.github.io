@@ -3,6 +3,7 @@
 <head>
     <title>Random Wealth Fund</title>
     <script src="https://cdn.jsdelivr.net/npm/papaparse@5.3.1/papaparse.min.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 </head>
 <body>
     <h1>Current Portfolio</h1>
@@ -41,5 +42,30 @@
             }
         }
     </script>
+    <div id="portfolio-chart"></div>
+   google.charts.load('current', {'packages':['corechart']});
+google.charts.setOnLoadCallback(drawChart);
+
+function drawChart() {
+    var data = google.visualization.arrayToDataTable([
+        // Your column headers
+        ['Date', 'Portfolio Value'],
+        // Sample Data (replace with Sheets fetch code later)
+        [new Date('2023-08-29'), 1000],
+        [new Date('2023-08-30'), 1250],
+        [new Date('2023-08-31'), 950],
+    ]);
+
+    var options = {
+        title: 'Portfolio Value Over Time',
+        curveType: 'function',
+        legend: { position: 'bottom' }  
+    };
+
+    var chart = new google.visualization.LineChart(document.getElementById('portfolio-chart'));
+
+    chart.draw(data, options);
+}
+
 </body>
 </html>
